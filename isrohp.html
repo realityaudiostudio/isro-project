@@ -212,10 +212,10 @@ footer a:hover i {
 
       <nav aria-label="Main navigation" style="display:flex;align-items:center;gap:14px">
         <a href="#" class="primary"><i class="fa-solid fa-house"></i> Home</a>
-        <a href="#timeline" onclick="missionOpen()"><i class="fa-solid fa-rocket"></i> Missions</a>
-        <a href="/isro_media.html"><i class="fa-solid fa-photo-video"></i> Media</a>
-        <a href="/isro_podcast.html"><i class="fa-solid fa-podcast"></i> Podcasts</a>
-        <a href="/isro_merch.html"><i class="fa-solid fa-bag-shopping"></i> Merch</a>
+        <a href="#" onclick="missionOpen()"><i class="fa-solid fa-rocket"></i> Missions</a>
+        <a href="#" onclick="mediaOpen()"><i class="fa-solid fa-photo-video"></i> Media</a>
+        <a href="#" onclick="openPodcast()"><i class="fa-solid fa-podcast"></i> Podcasts</a>
+        <a href="#" onclick="openMerch()"><i class="fa-solid fa-bag-shopping"></i> Merch</a>
         <select class="lang-select" aria-label="language">
           <option>English</option>
           <option>हिन्दी</option>
@@ -428,6 +428,10 @@ footer a:hover i {
     {
       window.location.href = "isro_game.html";
     }
+    function openMerch()
+    {
+      window.location.href = "isro_merch.html";
+    }
     function openLive()
     {
       window.location.href = "isro_live.html";
@@ -460,6 +464,14 @@ footer a:hover i {
     }
     setInterval(updateCountdown, 1000);
     updateCountdown();
+    function podcastOpen()
+    {
+      window.location.href = "isro_podcast.html";
+    }
+    function mediaOpen()
+    {
+      window.location.href="isro_media.html";
+    }
 
     // Dummy function for demo click
     function gotoGame(){
