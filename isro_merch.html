@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ISRO Merch Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --accent:#0b5fff;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.04);
+      --card:#0f1724;
+      --banner-h:160px;
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg,#071028 0%, #041021 100%);
+      color:#e6eef8;
+    }
+    .top-banner{
+      position:fixed;top:0;left:0;right:0;height:var(--banner-h);
+      background-image:url('banner3.jpg');background-size:cover;background-position:center;
+      z-index:60;box-shadow: inset 0 -60px 80px rgba(4,16,33,0.6);display:flex;align-items:flex-start;
+    }
+    .top-banner .banner-inner{
+      width:100%;max-width:1100px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    }
+    .container{
+      max-width:1100px;margin: calc(32px + var(--banner-h)) auto 32px; padding:24px;position:relative;z-index:10;
+    }
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#00c2ff);display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 6px 18px rgba(11,95,255,0.18)}
+    nav{display:flex;gap:14px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600;padding:8px 10px;border-radius:8px;display:inline-flex;align-items:center;gap:8px}
+    nav a:hover{color:#e6eef8;background:rgba(255,255,255,0.02)}
+    nav a.primary{color:var(--accent)}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;box-shadow:0 6px 30px rgba(2,6,23,0.6);animation:fadeInUp .45s ease both}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .merch-grid{display:flex;gap:24px;margin-top:24px;flex-wrap:wrap}
+    .merch-item{flex:1 1 220px;max-width:260px;background:var(--card);border-radius:12px;box-shadow:0 4px 18px rgba(11,95,255,0.08);padding:18px;display:flex;flex-direction:column;align-items:center;transition:transform .18s;}
+    .merch-item:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(11,95,255,0.18)}
+    .merch-img{width:120px;height:120px;border-radius:10px;background-size:cover;background-position:center;margin-bottom:14px;box-shadow:0 2px 12px rgba(11,95,255,0.10)}
+    .merch-title{font-weight:700;font-size:18px;margin-bottom:6px;text-align:center}
+    .merch-desc{color:var(--muted);font-size:14px;text-align:center;margin-bottom:12px}
+    .btn{padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;transition:transform .22s,box-shadow .22s,background .22s;border:1px solid rgba(255,255,255,0.06);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter:blur(6px);color:inherit}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#00c2ff);color:#fff;border:none;box-shadow:0 8px 30px rgba(11,95,255,0.18)}
+    .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(11,95,255,0.14)}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(11,95,255,0.18),0 0 30px rgba(11,95,255,0.08)}
+    .btn.secondary:hover{box-shadow:0 10px 30px rgba(11,95,255,0.12),0 0 20px rgba(11,95,255,0.06)}
+    footer{margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.03);color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+    @media(max-width:900px){.merch-grid{flex-direction:column;gap:18px}}
+  </style>
+</head>
+<body>
+  <div class="top-banner" role="img" aria-label="ISRO banner image">
+    <div class="banner-inner">
+      <div class="brand">
+        <img src="isrologo.png" alt="ISRO Logo" class="logo">
+        <div style="text-align:left">
+          <div style="font-weight:800">ISRO Merch Store</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">Official Outreach Merchandise</div>
+        </div>
+      </div>
+      <nav aria-label="Main navigation">
+        <a href="isrohp.html" class="primary"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="#" class="primary"><i class="fa-solid fa-bag-shopping"></i> Merch</a>
+      </nav>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h1 style="margin-top:0">ISRO Official Merch Store</h1>
+      <p style="color:var(--muted);margin-bottom:18px">Support outreach and science with exclusive ISRO-themed products. Every purchase helps spark curiosity and conversation!</p>
+      <div class="merch-grid">
+        <div class="merch-item">
+          <div class="merch-img" style="background-image:url('merch1.png')"></div>
+          <div class="merch-title">ISRO T-shirt</div>
+          <div class="merch-desc">Premium cotton tee with ISRO logo. Sizes S-XXL.</div>
+          <button class="btn primary">Buy Now</button>
+        </div>
+        <div class="merch-item">
+          <div class="merch-img" style="background-image:url('merch2.png')"></div>
+          <div class="merch-title">ISRO Mug</div>
+          <div class="merch-desc">Ceramic cup for your daily inspiration. 350ml.</div>
+          <button class="btn primary">Buy Now</button>
+        </div>
+        <div class="merch-item">
+          <div class="merch-img" style="background-image:url('merch3.jpg')"></div>
+          <div class="merch-title">ISRO Tshirt</div>
+          <div class="merch-desc">Eco-friendly tote for books, groceries, and more.</div>
+          <button class="btn primary">Buy Now</button>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div>© ISRO Outreach — Mock Store • Built for symposium pitch</div>
+      <div style="display:flex;gap:12px;align-items:center"><a href="#" style="color:var(--muted);text-decoration:none">Privacy</a><a href="#" style="color:var(--muted);text-decoration:none">Contact</a></div>
+    </footer>
+  </div>
+</body>
+</html>

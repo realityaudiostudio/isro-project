@@ -1,0 +1,1111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ISRO Rocket Launch Simulator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root{
+      --accent:#0b5fff;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.04);
+      --card:#0f1724;
+      --banner-h:120px;
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box;}
+    html, body {
+      margin: 0; height: 100vh; 
+      background: linear-gradient(180deg,#071028 0%, #041021 50%, #000511 100%);
+      color: #e6eef8;
+      overflow: hidden;
+    }
+
+    .top-banner {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--banner-h);
+      background: linear-gradient(135deg, rgba(11,95,255,0.1), rgba(0,194,255,0.05));
+      backdrop-filter: blur(10px);
+      z-index: 60;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+    }
+    .top-banner .banner-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--accent), #00c2ff);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: white;
+      box-shadow: 0 4px 12px rgba(11,95,255,0.3);
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.25s;
+    }
+    nav a:hover {
+      color: var(--accent);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .main-container {
+      display: flex;
+      height: 100vh;
+      padding-top: var(--banner-h);
+    }
+
+    .view-window {
+      flex: 2;
+      background: linear-gradient(180deg, #001122 0%, #000814 100%);
+      position: relative;
+      overflow: hidden;
+      border-right: 2px solid rgba(11,95,255,0.3);
+    }
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #eee, transparent);
+      background-repeat: repeat;
+      background-size: 200px 100px;
+      animation: twinkle 8s infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .ground {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: linear-gradient(0deg, #1a1a1a 0%, #2a2a2a 50%, transparent 100%);
+      border-top: 1px solid #333;
+    }
+
+    .launch-pad {
+      position: absolute;
+      bottom: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 20px;
+      background: linear-gradient(90deg, #444, #666);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .rocket-container {
+      position: absolute;
+      bottom: 140px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 200px;
+      transition: all 0.5s ease;
+    }
+
+    .rocket {
+      position: relative;
+      width: 50px;
+      height: 180px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #e0e0e0 0%, #999 50%, #666 100%);
+      border-radius: 25px 25px 5px 5px;
+      box-shadow: 
+        inset 0 10px 20px rgba(255,255,255,0.3),
+        0 0 30px rgba(11,95,255,0.2);
+      animation: rocket-idle 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes rocket-idle {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-3px); }
+    }
+
+    .rocket::before {
+      content: "";
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #ff4444, #cc0000);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      box-shadow: 0 0 15px rgba(255,68,68,0.5);
+    }
+
+    .rocket-window {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle, #40c9ff, #0b5fff);
+      border-radius: 50%;
+      border: 2px solid #333;
+      box-shadow: 0 0 10px rgba(64,201,255,0.8);
+    }
+
+    .rocket-stripes {
+      position: absolute;
+      top: 80px;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 8px,
+        rgba(255,255,255,0.1) 8px,
+        rgba(255,255,255,0.1) 12px
+      );
+    }
+
+    .flame {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 60px;
+      background: radial-gradient(ellipse at center top, #ffaa00 0%, #ff6600 50%, #ff0000 100%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      filter: blur(1px);
+      opacity: 0;
+      animation: flame-flicker 0.15s infinite alternate;
+      box-shadow: 0 0 20px rgba(255,102,0,0.8);
+    }
+
+    .flame.active {
+      opacity: 1;
+    }
+
+    @keyframes flame-flicker {
+      0% { 
+        transform: translateX(-50%) scaleY(1) scaleX(0.9);
+        filter: blur(1px) hue-rotate(0deg);
+      }
+      100% { 
+        transform: translateX(-50%) scaleY(1.2) scaleX(1.1);
+        filter: blur(2px) hue-rotate(10deg);
+      }
+    }
+
+    .smoke {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 80px;
+      background: radial-gradient(ellipse at center bottom, rgba(200,200,200,0.6), transparent);
+      border-radius: 50%;
+      opacity: 0;
+      animation: smoke-rise 2s infinite;
+    }
+
+    .smoke.active {
+      opacity: 1;
+    }
+
+    @keyframes smoke-rise {
+      0% {
+        transform: translateX(-50%) translateY(0) scale(0.5);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateX(-50%) translateY(-100px) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .control-panel {
+      flex: 1;
+      background: linear-gradient(180deg, rgba(15,23,36,0.95), rgba(4,16,33,0.98));
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      backdrop-filter: blur(10px);
+      border-left: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .panel-section {
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-item {
+      margin-bottom: 15px;
+    }
+
+    .status-label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status-bar {
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      height: 16px;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.5);
+    }
+
+    .status-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: all 0.3s ease;
+      border-radius: 8px;
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .control-btn {
+      padding: 14px 16px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), #0080ff);
+      color: white;
+      box-shadow: 0 4px 15px rgba(11,95,255,0.2);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .control-btn:disabled {
+      background: rgba(107,114,128,0.3);
+      cursor: not-allowed;
+      box-shadow: none;
+      border-color: rgba(255,255,255,0.05);
+    }
+
+    .control-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #0080ff, var(--accent));
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(11,95,255,0.3);
+    }
+
+    .launch-btn {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #ff6b35, #f7931e) !important;
+      font-size: 1.1rem !important;
+      padding: 18px !important;
+      font-weight: 700 !important;
+    }
+
+    .launch-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #f7931e, #ff6b35) !important;
+      box-shadow: 0 6px 25px rgba(255,107,53,0.4) !important;
+    }
+
+    .warning {
+      color: #ff4444;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 10px;
+      background: rgba(255,68,68,0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255,68,68,0.3);
+      min-height: 20px;
+    }
+
+    .message {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 10px;
+      background: rgba(11,95,255,0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(11,95,255,0.3);
+      min-height: 20px;
+    }
+
+    .game-over {
+      background: rgba(255,68,68,0.1) !important;
+      border-color: rgba(255,68,68,0.3) !important;
+      color: #ff4444 !important;
+    }
+
+    .game-success {
+      background: rgba(34,197,94,0.1) !important;
+      border-color: rgba(34,197,94,0.3) !important;
+      color: #22c55e !important;
+    }
+
+    /* Launch Animation */
+    .rocket-container.launching {
+      animation: rocket-launch 4s ease-in forwards;
+    }
+
+    @keyframes rocket-launch {
+      0% {
+        bottom: 140px;
+        transform: translateX(-50%) scale(1);
+      }
+      20% {
+        bottom: 200px;
+        transform: translateX(-50%) scale(1.05);
+      }
+      100% {
+        bottom: 120vh;
+        transform: translateX(-50%) scale(0.3);
+      }
+    }
+
+    .earth {
+      position: absolute;
+      bottom: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle at 30% 30%, #4a90e2, #2c5aa0);
+      border-radius: 50%;
+      opacity: 0.3;
+    }
+
+    /* Launch Success Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, rgba(11,95,255,0.1), rgba(0,194,255,0.05));
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(11,95,255,0.3);
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90vw;
+      text-align: center;
+      position: relative;
+      box-shadow: 
+        0 0 50px rgba(11,95,255,0.3),
+        inset 0 0 30px rgba(255,255,255,0.05);
+      transform: scale(0.8) translateY(50px);
+      transition: transform 0.4s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      margin-bottom: 30px;
+    }
+
+    .modal-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px rgba(11,95,255,0.5);
+    }
+
+    .modal-subtitle {
+      font-size: 1.2rem;
+      color: #22c55e;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .rocket-animation {
+      width: 120px;
+      height: 200px;
+      margin: 0 auto 30px;
+      position: relative;
+      overflow: visible;
+    }
+
+    .modal-rocket {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 140px;
+      background: linear-gradient(180deg, #e0e0e0 0%, #999 50%, #666 100%);
+      border-radius: 30px 30px 5px 5px;
+      box-shadow: 
+        inset 0 8px 16px rgba(255,255,255,0.3),
+        0 0 30px rgba(11,95,255,0.4);
+      animation: modal-rocket-launch 3s ease-in-out infinite;
+    }
+
+    .modal-rocket::before {
+      content: "";
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 25px;
+      background: linear-gradient(135deg, #ff4444, #cc0000);
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      box-shadow: 0 0 15px rgba(255,68,68,0.6);
+    }
+
+    .modal-rocket-window {
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 18px;
+      background: radial-gradient(circle, #40c9ff, #0b5fff);
+      border-radius: 50%;
+      border: 2px solid #333;
+      box-shadow: 0 0 12px rgba(64,201,255,1);
+    }
+
+    .modal-flame {
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 45px;
+      height: 55px;
+      background: radial-gradient(ellipse at center top, #ffaa00 0%, #ff6600 50%, #ff0000 100%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      filter: blur(1px);
+      animation: modal-flame-flicker 0.15s infinite alternate;
+      box-shadow: 0 0 25px rgba(255,102,0,1);
+    }
+
+    @keyframes modal-rocket-launch {
+      0%, 50% { 
+        bottom: 0;
+        transform: translateX(-50%) rotate(0deg);
+      }
+      100% { 
+        bottom: 60px;
+        transform: translateX(-50%) rotate(-5deg);
+      }
+    }
+
+    @keyframes modal-flame-flicker {
+      0% { 
+        transform: translateX(-50%) scaleY(1) scaleX(0.9);
+        filter: blur(1px) hue-rotate(0deg);
+      }
+      100% { 
+        transform: translateX(-50%) scaleY(1.3) scaleX(1.1);
+        filter: blur(2px) hue-rotate(15deg);
+      }
+    }
+
+    .mission-stats {
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      text-align: left;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .stat-value {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .close-btn {
+      background: linear-gradient(135deg, var(--accent), #0080ff);
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(11,95,255,0.3);
+    }
+
+    .close-btn:hover {
+      background: linear-gradient(135deg, #0080ff, var(--accent));
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(11,95,255,0.4);
+    }
+
+    .modal-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: float-particle 3s infinite;
+    }
+
+    @keyframes float-particle {
+      0% {
+        opacity: 0;
+        transform: translateY(0) scale(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-50px) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+      .view-window {
+        flex: 1;
+        border-right: none;
+        border-bottom: 2px solid rgba(11,95,255,0.3);
+      }
+      .control-panel {
+        flex: 0 0 300px;
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      .controls-grid {
+        grid-template-columns: 1fr;
+      }
+      .modal-content {
+        padding: 30px 20px;
+      }
+      .modal-title {
+        font-size: 2rem;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-banner">
+    <div class="banner-inner">
+      <div class="brand">
+        <div class="logo">🚀</div>
+        <div style="text-align:left">
+          <div style="font-weight:800; font-size: 18px;">ISRO Mission Control</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Rocket Launch Simulator</div>
+        </div>
+      </div>
+      <nav>
+        <a href="/isrohp.html"><i class="fa-solid fa-house"></i></a>
+        <a href="#"><i class="fa-solid fa-rocket"></i></a>
+        <a href="#"><i class="fa-solid fa-satellite"></i></a>
+        <a href="#"><i class="fa-solid fa-radio"></i></a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="view-window">
+      <div class="stars"></div>
+      <div class="earth"></div>
+      <div class="ground"></div>
+      <div class="launch-pad"></div>
+      <div class="rocket-container" id="rocket-container">
+        <div class="rocket">
+          <div class="rocket-window"></div>
+          <div class="rocket-stripes"></div>
+        </div>
+        <div class="flame" id="rocket-flame"></div>
+        <div class="smoke" id="rocket-smoke"></div>
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <div class="panel-section">
+        <div class="section-title">
+          <i class="fa-solid fa-gauge-high"></i>
+          System Status
+        </div>
+        
+        <div class="status-item">
+          <div class="status-label">
+            <span>Fuel Level</span>
+            <span id="fuel-value">100%</span>
+          </div>
+          <div class="status-bar">
+            <div class="status-fill" id="fuel-bar" style="background: #22c55e;"></div>
+          </div>
+        </div>
+
+        <div class="status-item">
+          <div class="status-label">
+            <span>Engine Temp</span>
+            <span id="temp-value">30°C</span>
+          </div>
+          <div class="status-bar">
+            <div class="status-fill" id="temp-bar" style="background: #3b82f6; width: 30%;"></div>
+          </div>
+        </div>
+
+        <div class="status-item">
+          <div class="status-label">
+            <span>System Checks</span>
+            <span id="system-value">0/5</span>
+          </div>
+          <div class="status-bar">
+            <div class="status-fill" id="system-bar" style="background: #f59e0b; width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-title">
+          <i class="fa-solid fa-sliders"></i>
+          Mission Control
+        </div>
+        
+        <div class="controls-grid">
+          <button class="control-btn" id="fuel-btn">
+            <i class="fa-solid fa-gas-pump"></i>
+            Refuel
+          </button>
+          <button class="control-btn" id="cool-btn">
+            <i class="fa-solid fa-snowflake"></i>
+            Cool Engine
+          </button>
+          <button class="control-btn" id="warm-btn">
+            <i class="fa-solid fa-fire"></i>
+            Warm Engine
+          </button>
+          <button class="control-btn" id="check-btn">
+            <i class="fa-solid fa-check-circle"></i>
+            System Check
+          </button>
+          <button class="control-btn launch-btn" id="launch-btn" disabled>
+            <i class="fa-solid fa-rocket-launch"></i>
+            LAUNCH SEQUENCE
+          </button>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <div class="section-title">
+          <i class="fa-solid fa-bell"></i>
+          Mission Status
+        </div>
+        <div class="warning" id="warning"></div>
+        <div class="message" id="message">System ready. Begin pre-flight checks...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Launch Success Modal -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal-content">
+      <div class="modal-particles" id="particles"></div>
+      
+      <div class="modal-header">
+        <div class="modal-title">🚀 MISSION SUCCESS!</div>
+        <div class="modal-subtitle">Launch Sequence Completed</div>
+      </div>
+
+      <div class="rocket-animation">
+        <div class="modal-rocket">
+          <div class="modal-rocket-window"></div>
+        </div>
+        <div class="modal-flame"></div>
+      </div>
+
+      <div class="mission-stats">
+        <h3 style="color: var(--accent); margin-bottom: 15px; font-size: 1.2rem;">Mission Statistics</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Final Fuel Level:</span>
+            <span class="stat-value" id="final-fuel">--</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Engine Temperature:</span>
+            <span class="stat-value" id="final-temp">--</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Systems Verified:</span>
+            <span class="stat-value" id="final-systems">--</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Mission Grade:</span>
+            <span class="stat-value" id="mission-grade">--</span>
+          </div>
+        </div>
+      </div>
+
+      <p style="color: var(--muted); margin-bottom: 25px; line-height: 1.5;">
+        🌟 Congratulations, Mission Commander! Your rocket has successfully reached orbit. 
+        You've demonstrated excellent mission management skills worthy of ISRO's finest engineers!
+      </p>
+
+      <button class="close-btn" id="close-modal">Continue Mission</button>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const fuelBar = document.getElementById('fuel-bar');
+      const tempBar = document.getElementById('temp-bar');
+      const systemBar = document.getElementById('system-bar');
+      const fuelValue = document.getElementById('fuel-value');
+      const tempValue = document.getElementById('temp-value');
+      const systemValue = document.getElementById('system-value');
+      const warningEl = document.getElementById('warning');
+      const messageEl = document.getElementById('message');
+
+      const fuelBtn = document.getElementById('fuel-btn');
+      const coolBtn = document.getElementById('cool-btn');
+      const warmBtn = document.getElementById('warm-btn');
+      const checkBtn = document.getElementById('check-btn');
+      const launchBtn = document.getElementById('launch-btn');
+
+      const rocketContainer = document.getElementById('rocket-container');
+      const rocketFlame = document.getElementById('rocket-flame');
+      const rocketSmoke = document.getElementById('rocket-smoke');
+      
+      const successModal = document.getElementById('success-modal');
+      const closeModalBtn = document.getElementById('close-modal');
+      const particlesContainer = document.getElementById('particles');
+
+      let fuel = 100;
+      let temp = 30;
+      let systemsChecked = 0;
+      let gameOver = false;
+      let gameWon = false;
+
+      function updateUI() {
+        fuelBar.style.width = fuel + '%';
+        fuelValue.textContent = fuel + '%';
+        if (fuel > 70) fuelBar.style.background = '#22c55e';
+        else if (fuel > 30) fuelBar.style.background = '#f59e0b';
+        else fuelBar.style.background = '#ef4444';
+
+        const tempPercent = Math.min(Math.max(temp, 0), 100);
+        tempBar.style.width = tempPercent + '%';
+        tempValue.textContent = Math.round(temp) + '°C';
+        if (temp < 20) tempBar.style.background = '#3b82f6';
+        else if (temp < 60) tempBar.style.background = '#22c55e';
+        else if (temp < 80) tempBar.style.background = '#f59e0b';
+        else tempBar.style.background = '#ef4444';
+
+        const systemPercent = (systemsChecked / 5) * 100;
+        systemBar.style.width = systemPercent + '%';
+        systemValue.textContent = `${systemsChecked}/5`;
+        if (systemsChecked === 5) systemBar.style.background = '#22c55e';
+        else systemBar.style.background = '#f59e0b';
+      }
+
+      function checkWarnings() {
+        const warnings = [];
+        if (fuel < 30) warnings.push('⚠️ FUEL LOW - Refuel immediately!');
+        if (temp > 80) warnings.push('🔥 ENGINE OVERHEATING - Cool down now!');
+        if (temp < 10) warnings.push('❄️ ENGINE TOO COLD - Warm up required!');
+        if (systemsChecked < 5) warnings.push('🔧 Complete all system checks!');
+        
+        warningEl.textContent = warnings.join(' | ') || '';
+        warningEl.style.display = warnings.length ? 'block' : 'none';
+      }
+
+      function checkGameOver() {
+        if (fuel <= 0) {
+          gameOver = true;
+          messageEl.textContent = '🚨 MISSION FAILED: Fuel depleted!';
+          messageEl.className = 'message game-over';
+          disableControls();
+        } else if (temp >= 100) {
+          gameOver = true;
+          messageEl.textContent = '🚨 MISSION FAILED: Engine explosion!';
+          messageEl.className = 'message game-over';
+          disableControls();
+        } else if (temp <= 0) {
+          gameOver = true;
+          messageEl.textContent = '🚨 MISSION FAILED: Engine frozen!';
+          messageEl.className = 'message game-over';
+          disableControls();
+        }
+      }
+
+      function disableControls() {
+        [fuelBtn, coolBtn, warmBtn, checkBtn, launchBtn].forEach(btn => {
+          btn.disabled = true;
+        });
+      }
+
+      function updateLaunchButton() {
+        const canLaunch = systemsChecked === 5 && fuel > 50 && temp > 20 && temp < 80;
+        launchBtn.disabled = !canLaunch || gameOver || gameWon;
+        
+        if (canLaunch && !gameOver && !gameWon) {
+          launchBtn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+          launchBtn.style.boxShadow = '0 4px 20px rgba(34, 197, 94, 0.4)';
+        }
+      }
+
+      function showFlameAndSmoke() {
+        rocketFlame.classList.add('active');
+        rocketSmoke.classList.add('active');
+        setTimeout(() => {
+          rocketFlame.classList.remove('active');
+          rocketSmoke.classList.remove('active');
+        }, 1000);
+      }
+
+      function showLaunchModal() {
+        // Update final statistics
+        document.getElementById('final-fuel').textContent = fuel + '%';
+        document.getElementById('final-temp').textContent = Math.round(temp) + '°C';
+        document.getElementById('final-systems').textContent = systemsChecked + '/5';
+        
+        // Calculate mission grade
+        let grade = 'EXCELLENT';
+        let score = 0;
+        if (fuel > 70) score += 25;
+        else if (fuel > 50) score += 20;
+        else score += 15;
+        
+        if (temp >= 40 && temp <= 60) score += 25;
+        else if (temp >= 30 && temp <= 70) score += 20;
+        else score += 15;
+        
+        if (systemsChecked === 5) score += 25;
+        
+        if (score >= 70) grade = 'EXCELLENT ⭐⭐⭐';
+        else if (score >= 60) grade = 'GOOD ⭐⭐';
+        else grade = 'SATISFACTORY ⭐';
+        
+        document.getElementById('mission-grade').textContent = grade;
+        
+        // Create floating particles
+        createParticles();
+        
+        // Show modal with delay for dramatic effect
+        setTimeout(() => {
+          successModal.classList.add('active');
+        }, 2000);
+      }
+      
+      function createParticles() {
+        particlesContainer.innerHTML = '';
+        for (let i = 0; i < 20; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'particle';
+          particle.style.left = Math.random() * 100 + '%';
+          particle.style.animationDelay = Math.random() * 3 + 's';
+          particle.style.animationDuration = (2 + Math.random() * 2) + 's';
+          particlesContainer.appendChild(particle);
+        }
+      }
+      
+      function closeModal() {
+        successModal.classList.remove('active');
+      }
+
+      function gameTick() {
+        if (gameOver || gameWon) return;
+
+        fuel = Math.max(fuel - 1, 0);
+        temp += (Math.random() * 6 - 3);
+        temp = Math.max(0, Math.min(100, temp));
+
+        if (fuel < 30) temp += Math.random() * 2;
+
+        updateUI();
+        checkWarnings();
+        checkGameOver();
+        updateLaunchButton();
+      }
+
+      fuelBtn.addEventListener('click', () => {
+        if (gameOver || gameWon) return;
+        fuel = Math.min(fuel + 20, 100);
+        messageEl.textContent = '⛽ Fuel tanks refilled (+20%)';
+        messageEl.className = 'message';
+        showFlameAndSmoke();
+        updateUI();
+        updateLaunchButton();
+      });
+
+      coolBtn.addEventListener('click', () => {
+        if (gameOver || gameWon) return;
+        temp = Math.max(temp - 25, 0);
+        messageEl.textContent = '❄️ Cooling systems activated (-25°C)';
+        messageEl.className = 'message';
+        updateUI();
+        updateLaunchButton();
+      });
+
+      warmBtn.addEventListener('click', () => {
+        if (gameOver || gameWon) return;
+        temp = Math.min(temp + 25, 100);
+        messageEl.textContent = '🔥 Engines preheated (+25°C)';
+        messageEl.className = 'message';
+        showFlameAndSmoke();
+        updateUI();
+        updateLaunchButton();
+      });
+
+      checkBtn.addEventListener('click', () => {
+        if (gameOver || gameWon) return;
+        if (systemsChecked < 5) {
+          systemsChecked++;
+          messageEl.textContent = `✅ System check complete (${systemsChecked}/5)`;
+          messageEl.className = 'message';
+          updateUI();
+          updateLaunchButton();
+        } else {
+          messageEl.textContent = '✅ All systems verified and ready!';
+          messageEl.className = 'message';
+        }
+      });
+
+      launchBtn.addEventListener('click', () => {
+        if (gameOver || gameWon) return;
+        gameWon = true;
+        messageEl.textContent = '🚀 LAUNCH INITIATED! Rocket ascending...';
+        messageEl.className = 'message game-success';
+        disableControls();
+        
+        rocketFlame.classList.add('active');
+        rocketSmoke.classList.add('active');
+        rocketContainer.classList.add('launching');
+        
+        // Show success modal after launch animation
+        showLaunchModal();
+      });
+
+      // Modal event listeners
+      closeModalBtn.addEventListener('click', closeModal);
+      
+      // Close modal with ESC key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && successModal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+      
+      // Close modal by clicking outside
+      successModal.addEventListener('click', (e) => {
+        if (e.target === successModal) {
+          closeModal();
+        }
+      });
+
+      updateUI();
+      updateLaunchButton();
+      const gameInterval = setInterval(gameTick, 1800);
+    })();
+  </script>
+</body>
+</html>

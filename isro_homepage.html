@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ISRO — Public Outreach (Mock)</title>
+  <style>
+    :root{
+      --accent:#0b5fff;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.04);
+      --card:#0f1724;
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071028 0%, #041021 100%);color:#e6eef8}
+    .container{max-width:1100px;margin:32px auto;padding:24px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#00c2ff);display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 6px 18px rgba(11,95,255,0.18)}
+    nav{display:flex;gap:14px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600}
+    nav a.primary{color:var(--accent)}
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:24px;margin-top:22px}
+
+    /* cards */
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:12px;box-shadow:0 6px 30px rgba(2,6,23,0.6);animation:fadeInUp .45s ease both}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+    .hero-left h1{margin:0;font-size:28px;line-height:1.05}
+    .hero-left p{color:var(--muted);margin-top:10px}
+    .cta-row{margin-top:18px;display:flex;gap:12px}
+
+    /* Button (glass base) */
+    .btn{padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;transition:transform .22s ease,box-shadow .22s ease,background .22s ease;border:1px solid rgba(255,255,255,0.06);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:inherit}
+    .btn:focus{outline:none;box-shadow:0 0 0 4px rgba(11,95,255,0.08)}
+
+    /* Primary CTA keeps accent but with subtle glass overlay */
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#00c2ff);color:#fff;border:none;box-shadow:0 8px 30px rgba(11,95,255,0.18)}
+    .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(11,95,255,0.14)}
+
+    /* hover glow */
+    .btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(11,95,255,0.18),0 0 30px rgba(11,95,255,0.08)}
+    .btn.secondary:hover{box-shadow:0 10px 30px rgba(11,95,255,0.12),0 0 20px rgba(11,95,255,0.06)}
+
+    .countdown{display:flex;gap:12px;align-items:center}
+    .count-item{background:rgba(255,255,255,0.03);padding:10px 12px;border-radius:10px;text-align:center;min-width:64px}
+    .count-item .num{font-size:18px;font-weight:800}
+    .lang-select{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:8px;color:var(--muted);backdrop-filter:blur(4px)}
+    .mission-timeline{margin-top:20px}
+    .timeline-item{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;margin-bottom:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00))}
+    .dot{width:14px;height:14px;border-radius:50%;background:var(--accent);margin-top:6px}
+    .right-col .live-card{display:flex;flex-direction:column;gap:12px}
+    .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .podcast-row{display:flex;gap:12px;margin-top:18px}
+    .pod{flex:1;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02)}
+    .media-repo{margin-top:20px;display:grid;grid-template-columns:2fr 1fr;gap:18px}
+    .search{display:flex;gap:8px}
+    .input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    footer{margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.03);color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+    .merch-grid{display:flex;gap:12px;margin-top:12px}
+    .merch{width:110px;height:110px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center}
+
+    /* small screens */
+    @media(max-width:900px){.hero{grid-template-columns:1fr;}.right-col{order:2}.podcast-row{flex-direction:column}.media-repo{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">IS</div>
+        <div>
+          <div style="font-weight:800">ISRO Public Outreach</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">Bringing missions to the people</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#timeline">Missions</a>
+        <a href="#media">Media</a>
+        <a href="#podcasts">Podcasts</a>
+        <a href="#merch" class="primary">Merch</a>
+        <select class="lang-select" aria-label="language">
+          <option>English</option>
+          <option>हिन्दी</option>
+          <option>தமிழ்</option>
+          <option>తెలుగు</option>
+          <option>ಕನ್ನಡ</option>
+          <option>മലയാളം</option>
+        </select>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-left card">
+        <h1>Live missions, local languages — real impact.</h1>
+        <p>Explore ISRO's timeline, live dashboards and human stories. See how satellites help farmers, fishermen, and cities — translated into regional languages.</p>
+        <div class="cta-row">
+          <button class="btn primary">View Live Dashboard</button>
+          <button class="btn secondary">Download Media Pack</button>
+        </div>
+
+        <div class="mission-timeline">
+          <h3 style="margin:12px 0 8px 0">Upcoming & Recent</h3>
+          <div class="timeline-item">
+            <div class="dot"></div>
+            <div>
+              <div style="font-weight:700">Chandrayaan — Data Release</div>
+              <div style="color:var(--muted);font-size:13px">Aug 20, 2025 · Public data release & visualization</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="dot"></div>
+            <div>
+              <div style="font-weight:700">LVM Launch</div>
+              <div style="color:var(--muted);font-size:13px">Countdown active · Live webcast</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="podcasts" style="margin-top:16px">
+          <h3 style="margin:0 0 10px 0">From the Lab — Podcasts</h3>
+          <div class="podcast-row">
+            <div class="pod card">
+              <div style="font-weight:800">Behind the Rocket</div>
+              <div style="color:var(--muted);font-size:13px;margin-top:6px">Episode 12 · Engineering telemetry</div>
+              <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary" style="padding:8px 10px;font-size:13px">Play</button><button class="btn secondary" style="padding:8px 10px;font-size:13px">Subscribe</button></div>
+            </div>
+            <div class="pod card">
+              <div style="font-weight:800">Missions That Matter</div>
+              <div style="color:var(--muted);font-size:13px;margin-top:6px">Stories from field applications</div>
+              <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary" style="padding:8px 10px;font-size:13px">Play</button></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="right-col">
+        <div class="card live-card" style="padding:18px;min-width:320px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-weight:800">Live Mission Dashboard</div>
+            <div style="color:var(--muted);font-size:13px">Updated: 2 min ago</div>
+          </div>
+
+          <div style="margin-top:12px">
+            <div style="font-size:13px;color:var(--muted)">Next Launch</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+              <div>
+                <div style="font-weight:800">LVM — PolarSat</div>
+                <div style="color:var(--muted);font-size:13px">Launch window: Aug 18, 2025</div>
+              </div>
+              <div class="countdown" id="countdown">
+                <div class="count-item"><div class="num" id="days">00</div><div style="font-size:11px;color:var(--muted)">Days</div></div>
+                <div class="count-item"><div class="num" id="hours">00</div><div style="font-size:11px;color:var(--muted)">Hours</div></div>
+                <div class="count-item"><div class="num" id="mins">00</div><div style="font-size:11px;color:var(--muted)">Mins</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px" class="stat-grid">
+            <div style="padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)"><div style="font-weight:800">345</div><div style="color:var(--muted);font-size:13px">Satellites Launched</div></div>
+            <div style="padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)"><div style="font-weight:800">120K</div><div style="color:var(--muted);font-size:13px">Users of Services (est.)</div></div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:10px">
+            <button class="btn primary">Watch Live</button>
+            <button class="btn secondary">Mission Details</button>
+          </div>
+
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-weight:800">Media Repository</div>
+            <div style="color:var(--muted);font-size:13px">Searchable • Downloadable</div>
+          </div>
+          <div class="search" style="margin-top:12px">
+            <input class="input" placeholder="Search photos, videos, docs..." />
+            <button class="btn primary">Search</button>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <div style="flex:1;min-width:110px;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02)">Sat images</div>
+            <div style="flex:1;min-width:110px;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02)">Launch footage</div>
+            <div style="flex:1;min-width:110px;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02)">Press kits</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div style="font-weight:800">Merch & Outreach</div>
+          <div style="color:var(--muted);font-size:13px;margin-top:8px">Everyday items that start conversations.</div>
+          <div class="merch-grid">
+            <div class="merch">T‑Shirt</div>
+            <div class="merch">Model</div>
+            <div class="merch">Sticker</div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px"><button class="btn primary">View Store</button><button class="btn secondary">Request Outreach</button></div>
+        </div>
+
+      </div>
+    </section>
+
+    <section style="margin-top:20px">
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">Why this matters</h3>
+        <p style="color:var(--muted);margin:0">Public visibility of mission timelines, live dashboards, and local-language storytelling helps citizens connect with ISRO's societal impact — improving education, adoption of services, and trust in science.</p>
+      </div>
+    </section>
+
+    <footer>
+      <div>© ISRO Outreach — Mock • Built for symposium pitch</div>
+      <div style="display:flex;gap:12px;align-items:center"><a href="#" style="color:var(--muted);text-decoration:none">Privacy</a><a href="#" style="color:var(--muted);text-decoration:none">Media Kit</a></div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Simple countdown (example date) — change targetDate as needed
+    const targetDate = new Date('2025-08-18T10:00:00');
+    function updateCountdown(){
+      const now = new Date();
+      let diff = Math.max(0, targetDate - now);
+      const days = Math.floor(diff / (1000*60*60*24));
+      diff -= days*(1000*60*60*24);
+      const hours = Math.floor(diff/(1000*60*60));
+      diff -= hours*(1000*60*60);
+      const mins = Math.floor(diff/(1000*60));
+      document.getElementById('days').textContent = String(days).padStart(2,'0');
+      document.getElementById('hours').textContent = String(hours).padStart(2,'0');
+      document.getElementById('mins').textContent = String(mins).padStart(2,'0');
+    }
+    updateCountdown();setInterval(updateCountdown,1000);
+  </script>
+</body>
+</html>

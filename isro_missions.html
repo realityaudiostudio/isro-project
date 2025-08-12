@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ISRO Missions</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root{
+      --accent:#0b5fff;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.04);
+      --card:#0f1724;
+      --banner-h:160px;
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg,#071028 0%, #041021 100%);
+      color:#e6eef8;
+    }
+    .top-banner{
+      position:fixed;
+      top:0;left:0;right:0;
+      height:var(--banner-h);
+      background-image:url('banner3.jpg');
+      background-size:cover;
+      background-position:center;
+      z-index:60;
+      box-shadow: inset 0 -60px 80px rgba(4,16,33,0.6);
+      display:flex;
+      align-items:flex-start;
+    }
+    .top-banner .banner-inner{
+      width:100%;
+      max-width:1100px;
+      margin:0 auto;
+      padding:18px 24px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo{
+      width:56px;
+      height:56px;
+      object-fit: contain;
+      border-radius:12px;
+      background: linear-gradient(135deg, var(--accent), #00c2ff);
+      box-shadow:0 6px 18px rgba(11,95,255,0.18);
+    }
+    nav{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      padding:8px 12px;
+      border-radius:8px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition: background 0.25s, color 0.25s;
+    }
+    nav a.primary{
+      color: var(--accent);
+    }
+    nav a:hover{
+      color:#e6eef8;
+      background: rgba(255,255,255,0.05);
+    }
+    .container{
+      max-width:1100px;
+      margin: calc(32px + var(--banner-h)) auto 32px;
+      padding:24px;
+      position:relative;
+      z-index:10;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+      padding:28px 22px;
+      border-radius:16px;
+      box-shadow:0 8px 40px rgba(2,6,23,0.6);
+      animation:fadeInUp .45s ease both;
+      margin-bottom:24px;
+    }
+    @keyframes fadeInUp{
+      from{opacity:0;transform:translateY(10px)}
+      to{opacity:1;transform:none}
+    }
+    .mission-title{
+      font-size:2rem;
+      font-weight:800;
+      margin-bottom:10px;
+      color:var(--accent);
+      text-align:left;
+    }
+    .mission-list{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .mission-item{
+      background:var(--card);
+      border-radius:12px;
+      padding:18px 16px;
+      box-shadow:0 2px 12px rgba(11,95,255,0.10);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      animation:fadeInUp .6s;
+    }
+    .mission-name{
+      font-weight:700;
+      font-size:1.1rem;
+      color:#e6eef8;
+    }
+    .mission-date{
+      color:var(--muted);
+      font-size:13px;
+    }
+    .mission-status{
+      font-size:13px;
+      font-weight:700;
+      padding:4px 10px;
+      border-radius:8px;
+      display:inline-block;
+      margin-top:2px;
+    }
+    .done{
+      background:linear-gradient(90deg,#0b5fff 60%,#00c2ff 100%);
+      color:#fff;
+    }
+    .upcoming{
+      background:linear-gradient(90deg,#2ecc40 60%,#0b5fff 100%);
+      color:#fff;
+    }
+    .desc{
+      color:var(--muted);
+      font-size:14px;
+    }
+    @media(max-width:900px){
+      .mission-list{
+        grid-template-columns:1fr;
+      }
+    }
+    .btn{
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      transition:transform .22s,box-shadow .22s,background .22s;
+      border:1px solid rgba(255,255,255,0.06);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      backdrop-filter:blur(6px);
+      color:inherit;
+    }
+    .btn.primary{
+      background:linear-gradient(135deg,var(--accent),#00c2ff);
+      color:#fff;
+      border:none;
+      box-shadow:0 8px 30px rgba(11,95,255,0.18);
+    }
+    .btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 12px 40px rgba(11,95,255,0.18),0 0 30px rgba(11,95,255,0.08);
+    }
+    footer{
+      margin-top:28px;
+      padding-top:20px;
+      border-top:1px solid rgba(255,255,255,0.03);
+      color:var(--muted);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer a{
+      color: var(--muted);
+      text-decoration:none;
+      transition: color 0.25s;
+    }
+    footer a:hover{
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="top-banner" role="img" aria-label="ISRO banner image">
+    <div class="banner-inner">
+      <div class="brand">
+        <img src="isrologo.png" alt="ISRO Logo" class="logo" />
+        <div style="text-align:left">
+          <div style="font-weight:800">ISRO Missions</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">Past & Upcoming Space Missions</div>
+        </div>
+      </div>
+      <nav aria-label="Main navigation" style="display:flex;align-items:center;gap:14px">
+        <a href="isrohp.html" class="primary"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="isro_merch.html"><i class="fa-solid fa-bag-shopping"></i> Merch</a>
+        <a href="isro_live.html"><i class="fa-solid fa-rocket"></i> LVM Launch</a>
+        <a href="isro_podcast.html"><i class="fa-solid fa-podcast"></i> Podcast</a>
+      </nav>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <div class="mission-title"><i class="fa-solid fa-rocket"></i> ISRO Missions</div>
+      <ul class="mission-list">
+        <li class="mission-item">
+          <div class="mission-name">Chandrayaan-3</div>
+          <div class="mission-date">Launched: July 14, 2023</div>
+          <span class="mission-status done">Completed</span>
+          <div class="desc">India's third lunar mission, successful soft landing on the Moon's south pole.</div>
+        </li>
+        <li class="mission-item">
+          <div class="mission-name">Aditya-L1</div>
+          <div class="mission-date">Launched: September 2, 2023</div>
+          <span class="mission-status done">Completed</span>
+          <div class="desc">India's first solar observatory mission to study the Sun from L1 point.</div>
+        </li>
+        <li class="mission-item">
+          <div class="mission-name">Gaganyaan</div>
+          <div class="mission-date">Planned: 2025</div>
+          <span class="mission-status upcoming">Upcoming</span>
+          <div class="desc">India's first human spaceflight mission, aiming to send Indian astronauts to space.</div>
+        </li>
+        <li class="mission-item">
+          <div class="mission-name">LVM — PolarSat</div>
+          <div class="mission-date">Planned: August 18, 2025</div>
+          <span class="mission-status upcoming">Upcoming</span>
+          <div class="desc">Next-generation launch vehicle mission for deploying PolarSat satellites.</div>
+        </li>
+        <li class="mission-item">
+          <div class="mission-name">RISAT-2BR1</div>
+          <div class="mission-date">Launched: December 11, 2019</div>
+          <span class="mission-status done">Completed</span>
+          <div class="desc">Radar imaging satellite for all-weather surveillance.</div>
+        </li>
+        <li class="mission-item">
+          <div class="mission-name">Mangalyaan (Mars Orbiter Mission)</div>
+          <div class="mission-date">Launched: November 5, 2013</div>
+          <span class="mission-status done">Completed</span>
+          <div class="desc">India's first interplanetary mission to Mars.</div>
+        </li>
+      </ul>
+    </div>
+    <footer>
+      <div>© ISRO Outreach — Missions • Built for symposium pitch</div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap: wrap;">
+        <a href="#" style="color:var(--muted);text-decoration:none">Privacy</a>
+        <a href="#" style="color:var(--muted);text-decoration:none">Contact</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
