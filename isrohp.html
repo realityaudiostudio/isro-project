@@ -143,6 +143,51 @@
       .podcast-row{flex-direction:column}
       .media-repo{grid-template-columns:1fr}
     }
+    .obs-item {
+  padding:10px;
+  margin-bottom:8px;
+  border-radius:8px;
+  background: rgba(255,255,255,0.02);
+}
+.obs-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:800;
+}
+.obs-sub {
+  font-size:13px;
+  color:var(--muted);
+  margin-top:2px;
+}
+.obs-meta {
+  display:flex;
+  justify-content:space-between;
+  margin-top:6px;
+  font-size:13px;
+  color:var(--muted);
+}
+.status-dot {
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  display:inline-block;
+}
+.status-dot.active { background:#2ecc71; }
+.status-dot.limited { background:#f1c40f; }
+.status-dot.closed { background:#e74c3c; }
+
+.observatories-list::-webkit-scrollbar {
+  width: 6px;
+}
+.observatories-list::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 6px;
+}
+.observatories-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 
     /* small polish for images tiles */
     .media-thumb{height:72px;border-radius:8px;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.02)}
@@ -164,7 +209,7 @@
       <nav aria-label="Main navigation" style="display:flex;align-items:center;gap:14px">
         <a href="#" class="primary"><i class="fa-solid fa-house"></i> Home</a>
         <a href="#timeline" onclick="missionOpen()"><i class="fa-solid fa-rocket"></i> Missions</a>
-        <a href="#media"><i class="fa-solid fa-photo-video"></i> Media</a>
+        <a href="/isro_media.html"><i class="fa-solid fa-photo-video"></i> Media</a>
         <a href="/isro_podcast.html"><i class="fa-solid fa-podcast"></i> Podcasts</a>
         <a href="/isro_merch.html"><i class="fa-solid fa-bag-shopping"></i> Merch</a>
         <select class="lang-select" aria-label="language">
@@ -296,7 +341,7 @@
           </div>
         </div>
 
-        <div class="card" style="background: rgba(11, 95, 255, 0.12); color: white;">
+        <!-- <div class="card" style="background: rgba(11, 95, 255, 0.12); color: white;">
           <h3 style="margin-top:0; font-weight: 800;">Quick Facts</h3>
           <ul style="padding-left: 20px; font-size: 14px; line-height: 1.5; margin: 0;">
             <li>ISRO founded in 1969 by Dr. Vikram Sarabhai</li>
@@ -304,7 +349,51 @@
             <li>Over 340 satellites launched till 2025</li>
             <li>More than 50 international customers for launch services</li>
           </ul>
-        </div>
+        </div> -->
+        <div class="card" style="background: rgba(255,255,255,0.02);">
+  <h3 style="margin-top:0; font-weight: 800;">Live Observatory Activities</h3>
+  <div class="observatories-list" style="max-height:200px; overflow-y:auto; padding-right:4px;">
+    
+    <div class="obs-item">
+      <div class="obs-header">
+        <strong>Vikram Sarabhai Space Centre</strong>
+        <span class="status-dot active"></span>
+      </div>
+      <div class="obs-sub">Thiruvananthapuram, Kerala</div>
+      <div class="obs-meta">
+        <span>🛰 Public Tour</span>
+        <span class="visitors" data-count="42">👥 42 visitors</span>
+      </div>
+    </div>
+
+    <div class="obs-item">
+      <div class="obs-header">
+        <strong>ISRO Propulsion Complex</strong>
+        <span class="status-dot limited"></span>
+      </div>
+      <div class="obs-sub">Mahendragiri, Tamil Nadu</div>
+      <div class="obs-meta">
+        <span>🔭 Night Sky Watch</span>
+        <span class="visitors" data-count="15">👥 15 visitors</span>
+      </div>
+    </div>
+
+    <div class="obs-item">
+      <div class="obs-header">
+        <strong>Space Applications Centre</strong>
+        <span class="status-dot closed"></span>
+      </div>
+      <div class="obs-sub">Ahmedabad, Gujarat</div>
+      <div class="obs-meta">
+        <span>⚙ Maintenance</span>
+        <span class="visitors" data-count="0">👥 0 visitors</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
       </div>
     </section>
 
