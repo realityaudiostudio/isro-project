@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ISRO — AI Social Media Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{
+  --accent:#0b5fff;
+  --muted:#6b7280;
+  --card:#0f1724;
+  --glass: rgba(255,255,255,0.04);
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+html,body{
+  margin:0;
+  background: linear-gradient(180deg,#071028 0%, #041021 100%);
+  color:#e6eef8;
+}
+*{box-sizing:border-box}
+
+header{
+  background:var(--card);
+  padding:16px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,0.4);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:48px;height:48px;border-radius:10px}
+nav a{
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:600;
+  margin-left:16px;
+}
+nav a:hover{color:#fff}
+
+.container{
+  max-width:1200px;
+  margin:24px auto;
+  padding:0 20px;
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:20px;
+}
+
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 6px 30px rgba(2,6,23,0.6);
+}
+
+.card h3{margin-top:0;font-weight:800}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.stat-box{
+  background:rgba(255,255,255,0.02);
+  padding:14px;
+  border-radius:10px;
+  text-align:center;
+}
+.stat-num{font-size:22px;font-weight:800}
+
+.post-scheduler input, .post-scheduler textarea{
+  width:100%;
+  margin-top:8px;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:transparent;
+  color:#fff;
+}
+.post-scheduler button{
+  margin-top:10px;
+  padding:10px 14px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),#00c2ff);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+.post-scheduler button:hover{
+  transform:translateY(-2px);
+}
+
+.ai-suggestions li{
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  font-size:14px;
+}
+
+.post-interactions{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+.post-interactions button{
+  background:rgba(255,255,255,0.05);
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.post-interactions button:hover{
+  background:rgba(255,255,255,0.1);
+}
+
+.comments{
+  margin-top:15px;
+}
+.comments input{
+  width:100%;
+  padding:8px;
+  border-radius:8px;
+  border:none;
+  background:rgba(255,255,255,0.05);
+  color:#fff;
+}
+.comment-list{
+  margin-top:10px;
+  font-size:14px;
+}
+.comment-list div{
+  padding:6px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+@media(max-width:900px){
+  .container{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="isrologo.png" alt="ISRO Logo">
+    <div>
+      <div style="font-weight:800">ISRO AI Social Media</div>
+      <div style="font-size:13px;color:var(--muted)">AI-powered content & insights</div>
+    </div>
+  </div>
+  <nav>
+    <a href="/isrohp.html"><i class="fa-solid fa-house"></i> Home</a>
+    <a href="#"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+    <a href="#"><i class="fa-solid fa-calendar-days"></i> Scheduler</a>
+    <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+  </nav>
+</header>
+
+<div class="container">
+  <!-- Left Column -->
+  <div>
+    <div class="card">
+      <h3>Social Media Stats</h3>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-num" id="followers">0</div>
+          <div style="color:var(--muted);font-size:13px">Total Followers</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="engagement">0%</div>
+          <div style="color:var(--muted);font-size:13px">Engagement Rate</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="posts">0</div>
+          <div style="color:var(--muted);font-size:13px">Posts This Month</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3>Engagement Overview</h3>
+      <canvas id="engagementChart" height="200"></canvas>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3>Latest Post</h3>
+      <p>🚀 Chandrayaan-3 mission achieved a new milestone with high-resolution lunar surface imaging.</p>
+
+      <div class="post-interactions">
+        <button onclick="likePost()"><i class="fa-solid fa-thumbs-up"></i> <span id="likes">0</span></button>
+        <button onclick="sharePost()"><i class="fa-solid fa-share"></i> <span id="shares">0</span></button>
+        <button onclick="repostPost()"><i class="fa-solid fa-retweet"></i> <span id="reposts">0</span></button>
+      </div>
+
+      <div class="comments">
+        <input type="text" id="commentInput" placeholder="Add a comment..." onkeydown="if(event.key==='Enter') addComment()">
+        <div class="comment-list" id="commentList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column -->
+  <div>
+    <div class="card">
+      <h3>AI Suggestions</h3>
+      <ul class="ai-suggestions" id="ai-list">
+        <li>Boost engagement with Chandrayaan-3 update posts during evening peak time.</li>
+        <li>Share more Earth observation images on weekends.</li>
+        <li>Highlight student participation in satellite projects.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h3>Top Performing Posts</h3>
+      <canvas id="topPostsChart" height="200"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+// Simulate dynamic stats update
+document.getElementById('followers').textContent = '1.2M';
+document.getElementById('engagement').textContent = '8.4%';
+document.getElementById('posts').textContent = '42';
+
+// Like/Share/Repost counters
+let likes = 0, shares = 0, reposts = 0;
+
+function likePost(){
+  likes++;
+  document.getElementById('likes').textContent = likes;
+}
+function sharePost(){
+  shares++;
+  document.getElementById('shares').textContent = shares;
+}
+function repostPost(){
+  reposts++;
+  document.getElementById('reposts').textContent = reposts;
+}
+
+// Comments system
+function addComment(){
+  const input = document.getElementById('commentInput');
+  const text = input.value.trim();
+  if(text){
+    const commentList = document.getElementById('commentList');
+    const commentDiv = document.createElement('div');
+    commentDiv.textContent = text;
+    commentList.prepend(commentDiv);
+    input.value = '';
+  }
+}
+
+// Engagement chart
+new Chart(document.getElementById('engagementChart').getContext('2d'), {
+  type: 'line',
+  data: {
+    labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+    datasets: [{
+      label: 'Engagement Rate (%)',
+      data: [7.2, 8.1, 7.8, 9.0, 8.7, 10.2, 9.5],
+      fill: true,
+      backgroundColor: 'rgba(11,95,255,0.08)',
+      borderColor: '#0b5fff',
+      tension: 0.4,
+      pointBackgroundColor: '#00c2ff',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: true, ticks: { color: '#e6eef8' } },
+      x: { ticks: { color: '#e6eef8' } }
+    },
+    plugins: { legend: { labels: { color: '#e6eef8' } } }
+  }
+});
+
+// Top Performing Posts chart
+new Chart(document.getElementById('topPostsChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: ['Post A','Post B','Post C','Post D'],
+    datasets: [
+      { label: 'Likes', data: [120, 90, 150, 110], backgroundColor: '#0b5fff' },
+      { label: 'Shares', data: [80, 60, 100, 70], backgroundColor: '#00c2ff' },
+      { label: 'Reposts', data: [50, 40, 90, 60], backgroundColor: '#00ffaa' }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: true, ticks: { color: '#e6eef8' } },
+      x: { ticks: { color: '#e6eef8' } }
+    },
+    plugins: { legend: { labels: { color: '#e6eef8' } } }
+  }
+});
+</script>
+
+</body>
+</html>

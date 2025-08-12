@@ -187,6 +187,10 @@
 .observatories-list::-webkit-scrollbar-track {
   background: transparent;
 }
+footer a:hover i {
+  color: #fff;
+  text-shadow: 0 0 8px var(--accent);
+}
 
 
     /* small polish for images tiles */
@@ -407,10 +411,17 @@
     </section>
   </div>
 
-  <footer>
-    <div>© 2025 ISRO Outreach | Designed with care</div>
-    <div><a href="https://www.isro.gov.in" target="_blank" style="color: var(--accent); text-decoration:none;">Official Site</a></div>
-  </footer>
+ <footer>
+  <div>© 2025 ISRO Outreach | Designed with care</div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <a href="https://www.isro.gov.in" target="_blank" style="color: var(--accent); text-decoration:none;">Official Site</a>
+    <a href="https://x.com/isro" target="_blank" aria-label="ISRO on Twitter" style="color: var(--accent);"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="https://www.facebook.com/ISRO" target="_blank" aria-label="ISRO on Facebook" style="color: var(--accent);"><i class="fa-brands fa-facebook"></i></a>
+    <a href="https://www.instagram.com/isro.in" target="_blank" aria-label="ISRO on Instagram" style="color: var(--accent);"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://www.youtube.com/@isroofficial5865" target="_blank" aria-label="ISRO on YouTube" style="color: var(--accent);"><i class="fa-brands fa-youtube"></i></a>
+  </div>
+</footer>
+
 
   <script>
     function openGamer()
