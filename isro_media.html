@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ISRO Media Updates</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --accent:#0b5fff;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.04);
+      --card:#0f1724;
+      --banner-h:160px;
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg,#071028 0%, #041021 100%);
+      color:#e6eef8;
+    }
+    .top-banner{
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      height:var(--banner-h);
+      background-image:url('banner3.jpg');
+      background-size:cover;
+      background-position:center;
+      z-index:60;
+      box-shadow: inset 0 -60px 80px rgba(4,16,33,0.6);
+      display:flex;
+      align-items:flex-start;
+    }
+    .top-banner .banner-inner{
+      width:100%;
+      max-width:1100px;
+      margin:0 auto;
+      padding:18px 24px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .container{
+      max-width:900px;
+      margin: calc(32px + var(--banner-h)) auto 32px;
+      padding:24px;
+      position:relative;
+      z-index:10;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+      padding:28px 22px;
+      border-radius:16px;
+      box-shadow:0 8px 40px rgba(2,6,23,0.6);
+      animation:fadeInUp .45s ease both;
+      margin-bottom:24px;
+    }
+    @keyframes fadeInUp{
+      from{opacity:0;transform:translateY(10px)}
+      to{opacity:1;transform:none}
+    }
+    .media-title{
+      font-size:2rem;
+      font-weight:800;
+      margin-bottom:10px;
+      color:var(--accent);
+      text-align:left;
+    }
+    .media-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:18px;
+    }
+    .media-item{
+      background:var(--card);
+      border-radius:12px;
+      padding:16px;
+      box-shadow:0 2px 12px rgba(11,95,255,0.10);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      animation:fadeInUp .6s;
+    }
+    .media-thumb{
+      width:100%;
+      height:160px;
+      border-radius:10px;
+      background-size:cover;
+      background-position:center;
+      box-shadow:0 1px 6px rgba(11,95,255,0.10);
+    }
+    .media-caption{
+      font-weight:700;
+      font-size:1rem;
+      color:#e6eef8;
+      margin-top:6px;
+    }
+    .media-desc{
+      color:var(--muted);
+      font-size:14px;
+    }
+    .media-video{
+      width:100%;
+      height:180px;
+      border-radius:10px;
+      background:#041021;
+      box-shadow:0 1px 6px rgba(11,95,255,0.10);
+      margin-bottom:8px;
+    }
+    @media(max-width:900px){
+      .media-grid{
+        grid-template-columns:1fr;
+      }
+    }
+    /* Nav styles updated to match second page */
+    nav{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      position:sticky;
+      top:0;
+      background:rgba(11,95,255,0.08);
+      backdrop-filter:blur(8px);
+      z-index:100;
+    }
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      padding:8px 10px;
+      border-radius:8px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    nav a:hover{
+      color:#e6eef8;
+      background:rgba(255,255,255,0.02);
+    }
+    nav a.primary{
+      color:var(--accent);
+    }
+    footer{
+      margin-top:28px;
+      padding-top:20px;
+      border-top:1px solid rgba(255,255,255,0.03);
+      color:var(--muted);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-banner" role="img" aria-label="ISRO banner image">
+    <div class="banner-inner">
+      <div class="brand" style="display:flex;align-items:center;gap:12px">
+        <img src="isrologo.png" alt="ISRO Logo" class="logo" style="width:56px; height:56px; border-radius:12px;">
+        <div style="text-align:left">
+          <div style="font-weight:800">ISRO Media Updates</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">Latest Images & Videos</div>
+        </div>
+      </div>
+      <nav aria-label="Main navigation" style="display:flex;align-items:center;gap:14px;position:sticky;top:0;background:rgba(11,95,255,0.08);backdrop-filter:blur(8px);z-index:100;">
+        <a href="isrohp.html" class="primary"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="isro_merch.html"><i class="fa-solid fa-bag-shopping"></i> Merch</a>
+        <a href="isro_live.html"><i class="fa-solid fa-rocket"></i> LVM Launch</a>
+        <a href="isro_missions.html"><i class="fa-solid fa-flag"></i> Missions</a>
+        <a href="isro_podcast.html"><i class="fa-solid fa-podcast"></i> Podcast</a>
+      </nav>
+    </div>
+  </div>
+  <div class="container">
+    <div class="card">
+      <div class="media-title"><i class="fa-solid fa-photo-video"></i> ISRO Media Updates</div>
+      <div class="media-grid">
+        <div class="media-item">
+          <div class="media-thumb" style="background-image:url('r1.webp')"></div>
+          <div class="media-caption">PSLV-C55 Launch</div>
+          <div class="media-desc">Spectacular liftoff of PSLV-C55 carrying satellites for Singapore, April 2023.</div>
+        </div>
+        <div class="media-item">
+          <div class="media-thumb" style="background-image:url('r2.webp')"></div>
+          <div class="media-caption">Chandrayaan-3 Moon Landing</div>
+          <div class="media-desc">Historic moment as Chandrayaan-3 lands on the lunar south pole, August 2023.</div>
+        </div>
+        <div class="media-item">
+          <div class="media-video">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/1wcrbT9P5Zg" title="ISRO Chandrayaan-3 Landing" frameborder="0" allowfullscreen style="border-radius:10px;"></iframe>
+          </div>
+          <div class="media-caption">Chandrayaan-3 Live Landing</div>
+          <div class="media-desc">Watch the official live stream of Chandrayaan-3's lunar landing.</div>
+        </div>
+        <div class="media-item">
+          <div class="media-video">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/2QWQGQqJkqI" title="Aditya-L1 Launch" frameborder="0" allowfullscreen style="border-radius:10px;"></iframe>
+          </div>
+          <div class="media-caption">Aditya-L1 Launch</div>
+          <div class="media-desc">India's first solar observatory mission launch, September 2023.</div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div>© ISRO Outreach — Media Updates • Built for symposium pitch</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a href="#" style="color:var(--muted);text-decoration:none">Privacy</a>
+        <a href="#" style="color:var(--muted);text-decoration:none">Contact</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
