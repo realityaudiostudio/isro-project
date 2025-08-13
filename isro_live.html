@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ISRO LVM Launch — Live Event</title>
+  <title>ISRO LVM3 Launch — Live Event</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root{
@@ -54,6 +54,7 @@
     .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(11,95,255,0.14)}
     .btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(11,95,255,0.18),0 0 30px rgba(11,95,255,0.08)}
     .btn.secondary:hover{box-shadow:0 10px 30px rgba(11,95,255,0.12),0 0 20px rgba(11,95,255,0.06)}
+    .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none !important;box-shadow:0 8px 30px rgba(11,95,255,0.18) !important}
     .media-thumb{height:72px;width:72px;border-radius:8px;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.02)}
     footer{margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.03);color:var(--muted);display:flex;justify-content:space-between;align-items:center}
     .tree-popup {
@@ -77,6 +78,65 @@
       60% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
       100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
     }
+    .microtask-container {
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 12px;
+      border: 1px solid rgba(11,95,255,0.1);
+    }
+    .task-image {
+      width: 100%;
+      max-width: 200px;
+      height: 120px;
+      border-radius: 8px;
+      background-size: cover;
+      background-position: center;
+      margin: 10px auto;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+    .task-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .task-btn {
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #e6eef8;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+    }
+    .task-btn:hover {
+      background: rgba(11,95,255,0.2);
+      border-color: var(--accent);
+    }
+    .earnings-display {
+      background: linear-gradient(135deg, #2ecc40, #27ae60);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .loading-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
     @media(max-width:900px){.live-grid{flex-direction:column;gap:18px}}
   </style>
 </head>
@@ -84,27 +144,31 @@
   <div class="top-banner" role="img" aria-label="ISRO banner image">
     <div class="banner-inner">
       <div class="brand">
-        <img src="isrologo.png" alt="ISRO Logo" class="logo">
+        <div class="logo">🚀</div>
         <div style="text-align:left">
-          <div style="font-weight:800">ISRO LVM Launch</div>
+          <div style="font-weight:800">ISRO LVM3 Launch</div>
           <div style="font-size:13px;color:var(--muted);margin-top:4px">Live Event — August 18, 2025</div>
         </div>
       </div>
       <nav aria-label="Main navigation">
-        <a href="isrohp.html" class="primary"><i class="fa-solid fa-house"></i> Home</a>
-        <a href="isro_merch.html" class="primary"><i class="fa-solid fa-bag-shopping"></i> Merch</a>
-        <a href="#" class="primary"><i class="fa-solid fa-rocket"></i> LVM Launch</a>
+        <a href="/isro-project/isrohp.html" class="primary"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="#" class="primary"><i class="fa-solid fa-bag-shopping"></i> Merch</a>
+        <a href="#" class="primary"><i class="fa-solid fa-rocket"></i> LVM3 Launch</a>
       </nav>
     </div>
   </div>
   <div class="container">
     <div class="card">
-      <h1 style="margin-top:0">LVM Launch — Live Coverage</h1>
-      <p style="color:var(--muted);margin-bottom:18px">Join us for the live coverage of the LVM launch. Watch the webcast, see mission stats, and follow real-time updates as India reaches new heights in space technology.</p>
+      <h1 style="margin-top:0">LVM3 Launch — Live Coverage</h1>
+      <p style="color:var(--muted);margin-bottom:18px">Join us for the live coverage of the LVM3 launch. Watch the webcast, see mission stats, and follow real-time updates as India reaches new heights in space technology.</p>
       <div class="live-grid">
         <div class="live-main">
           <div style="width:100%;max-width:520px;aspect-ratio:16/9;background:#041021;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 18px rgba(11,95,255,0.10);margin-bottom:18px">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/OgC1MxtCwq4?si=qT_5xsv5th5_2WSf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>          </div>
+            <div style="color:var(--muted);text-align:center">
+              <i class="fa-solid fa-play" style="font-size:48px;margin-bottom:12px"></i>
+              <div>Live Stream Starting Soon</div>
+            </div>
+          </div>
           <div class="countdown" id="countdown">
             <div class="count-item"><div class="num" id="days">00</div><div style="font-size:11px;color:var(--muted)">Days</div></div>
             <div class="count-item"><div class="num" id="hours">00</div><div style="font-size:11px;color:var(--muted)">Hours</div></div>
@@ -113,41 +177,82 @@
           <button class="btn primary" style="margin-top:10px">Watch Live</button>
         </div>
         <div class="live-side">
-            <div class="card" id="launch-game" style="margin-bottom:0">
-            <div style="font-weight:800;display:flex;align-items:center;gap:8px"><i class="fa-solid fa-gamepad"></i> Launch Support Game</div>
-            <div style="margin:12px 0 8px 0;color:var(--muted);font-size:14px">Click the button to launch! Every 10 launches plants a tree. Show your support!</div>
+          <div class="card" id="launch-game" style="margin-bottom:0">
+            <div style="font-weight:800;display:flex;align-items:center;gap:8px">
+              <i class="fa-solid fa-rocket"></i> Mission Support Hub
+            </div>
+            <div style="margin:12px 0 8px 0;color:var(--muted);font-size:14px">
+              Support ISRO missions by completing space-related microtasks. Earn rewards while contributing to space research!
+            </div>
+            
             <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
-              <button class="btn primary" id="launch-btn" style="font-size:18px;padding:14px 22px"><i class="fa-solid fa-rocket"></i> Launch!</button>
-              <div style="font-size:16px;font-weight:700;margin-top:6px">Total Launches: <span id="launch-count">0</span></div>
+              <button class="btn primary" id="launch-btn" style="font-size:18px;padding:14px 22px">
+                <i class="fa-solid fa-rocket"></i> Start Mission Support
+              </button>
+              
+              <!-- Microtask Container -->
+              <div id="microtask-container" class="microtask-container" style="display:none;width:100%">
+                <div style="font-weight:600;margin-bottom:8px;color:var(--accent)">
+                  <i class="fa-solid fa-satellite"></i> Satellite Image Classification
+                </div>
+                <div style="font-size:13px;color:var(--muted);margin-bottom:10px">
+                  Help classify this satellite image to support mission planning
+                </div>
+                <div id="task-image" class="task-image"></div>
+                <div id="task-question" style="font-size:14px;margin:10px 0;text-align:center"></div>
+                <div id="task-options" class="task-options"></div>
+                <div id="task-status" style="text-align:center;margin-top:10px;font-size:13px;color:var(--muted)"></div>
+              </div>
+              
+              <div style="font-size:16px;font-weight:700;margin-top:6px">
+                Missions Completed: <span id="launch-count">0</span>
+              </div>
               <div id="launch-message" style="color:var(--accent);font-size:15px;font-weight:600;margin-top:4px"></div>
+              
+              <!-- Earnings Display -->
+              <div id="earnings-display" class="earnings-display" style="display:none">
+                <i class="fa-solid fa-coins"></i> Earned: $<span id="total-earnings">0.00</span>
+              </div>
+              
               <div id="tree-message" style="color:#2ecc40;font-size:15px;font-weight:600;margin-top:4px"></div>
             </div>
           </div>
+          
           <div class="card" style="margin-bottom:0">
             <div style="font-weight:800">Mission Stats</div>
             <div class="stat-grid">
-              <div style="padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)"><div style="font-weight:800">LVM — PolarSat</div><div style="color:var(--muted);font-size:13px">Launch window: Aug 18, 2025</div></div>
-              <div style="padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)"><div style="font-weight:800">345</div><div style="color:var(--muted);font-size:13px">Satellites Launched</div></div>
-            </div>
-          </div>
-          <div class="card">
-            <div style="font-weight:800">Media Highlights</div>
-            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-              <div class="media-thumb" style="background-image:url('r1.webp')"></div>
-              <div class="media-thumb" style="background-image:url('r2.webp')"></div>
-              <div class="media-thumb" style="background-image:url('r3.webp')"></div>
+              <div style="padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)">
+                <div style="font-weight:800">LVM3 — PolarSat</div>
+                <div style="color:var(--muted);font-size:13px">Launch window: Aug 18, 2025</div>
+              </div>
+              <div style="padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)">
+                <div style="font-weight:800">345</div>
+                <div style="color:var(--muted);font-size:13px">Satellites Launched</div>
+              </div>
             </div>
           </div>
           
+          <div class="card">
+            <div style="font-weight:800">Media Highlights</div>
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <div class="media-thumb" style="background:linear-gradient(45deg,#ff6b6b,#4ecdc4)"></div>
+              <div class="media-thumb" style="background:linear-gradient(45deg,#667eea,#764ba2)"></div>
+              <div class="media-thumb" style="background:linear-gradient(45deg,#f093fb,#f5576c)"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <footer>
-      <div>© ISRO Outreach — LVM Launch • Built for symposium pitch</div>
-      <div style="display:flex;gap:12px;align-items:center"><a href="#" style="color:var(--muted);text-decoration:none">Privacy</a><a href="#" style="color:var(--muted);text-decoration:none">Contact</a></div>
+      <div>© ISRO Outreach — LVM3 Launch • Built for symposium pitch</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a href="#" style="color:var(--muted);text-decoration:none">Privacy</a>
+        <a href="#" style="color:var(--muted);text-decoration:none">Contact</a>
+      </div>
     </footer>
   </div>
   <div id="tree-popup" class="tree-popup"></div>
+  
   <script>
     // Simple countdown for launch
     const targetDate = new Date('2025-08-18T10:00:00');
@@ -163,33 +268,258 @@
       document.getElementById('hours').textContent = String(hours).padStart(2,'0');
       document.getElementById('mins').textContent = String(mins).padStart(2,'0');
     }
-    updateCountdown();setInterval(updateCountdown,1000);
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
-    // Launch clicker game
+    // Microtask System
+    class MicrotaskAPI {
+      constructor() {
+        this.apiEndpoint = 'https://api.example-microtask.com'; // Replace with actual API
+        this.apiKey = 'your-api-key'; // Replace with actual API key
+        this.taskTypes = ['satellite-classification', 'terrain-analysis', 'weather-pattern'];
+        this.completedTasks = 0;
+        this.totalEarnings = 0;
+      }
+
+      // Simulate API call to get a new task
+      async getNewTask() {
+        // In real implementation, this would be an actual API call
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            const taskType = this.taskTypes[Math.floor(Math.random() * this.taskTypes.length)];
+            const task = this.generateMockTask(taskType);
+            resolve(task);
+          }, 1000); // Simulate network delay
+        });
+      }
+
+      // Generate mock task data
+      generateMockTask(taskType) {
+        const tasks = {
+          'satellite-classification': {
+            id: Math.random().toString(36).substr(2, 9),
+            type: 'image-classification',
+            question: 'What type of terrain is visible in this satellite image?',
+            imageUrl: `https://picsum.photos/200/120?random=${Math.floor(Math.random() * 1000)}`,
+            options: ['Desert', 'Forest', 'Urban', 'Water Body'],
+            correctAnswer: Math.floor(Math.random() * 4),
+            reward: 0.15
+          },
+          'terrain-analysis': {
+            id: Math.random().toString(36).substr(2, 9),
+            type: 'image-classification',
+            question: 'Identify the primary geological feature in this image:',
+            imageUrl: `https://picsum.photos/200/120?random=${Math.floor(Math.random() * 1000)}`,
+            options: ['Mountain Range', 'River Delta', 'Crater', 'Valley'],
+            correctAnswer: Math.floor(Math.random() * 4),
+            reward: 0.20
+          },
+          'weather-pattern': {
+            id: Math.random().toString(36).substr(2, 9),
+            type: 'image-classification',
+            question: 'What weather pattern do you see in this satellite image?',
+            imageUrl: `https://picsum.photos/200/120?random=${Math.floor(Math.random() * 1000)}`,
+            options: ['Clear Sky', 'Cloud Cover', 'Storm System', 'Fog/Mist'],
+            correctAnswer: Math.floor(Math.random() * 4),
+            reward: 0.18
+          }
+        };
+        return tasks[taskType];
+      }
+
+      // Submit task completion
+      async submitTask(taskId, answer) {
+        // In real implementation, this would validate the answer with the API
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            const isCorrect = Math.random() > 0.3; // 70% success rate for demo
+            resolve({
+              success: isCorrect,
+              reward: isCorrect ? this.currentTask.reward : 0,
+              message: isCorrect ? 'Correct! Task completed successfully.' : 'Incorrect answer. No reward earned.'
+            });
+          }, 800);
+        });
+      }
+
+      setCurrentTask(task) {
+        this.currentTask = task;
+      }
+    }
+
+    // Initialize microtask system
+    const microtaskAPI = new MicrotaskAPI();
     let launchCount = 0;
     let treeCount = 0;
+    let isTaskInProgress = false;
+
+    // DOM elements
     const launchBtn = document.getElementById('launch-btn');
     const launchCountSpan = document.getElementById('launch-count');
     const launchMsg = document.getElementById('launch-message');
     const treeMsg = document.getElementById('tree-message');
     const treePopup = document.getElementById('tree-popup');
-    if(launchBtn){
-      launchBtn.addEventListener('click', function(){
-        launchCount++;
-        launchCountSpan.textContent = launchCount;
-        launchMsg.textContent = 'You launched! 🚀';
-        if(launchCount % 10 === 0){
-          treeCount++;
-          treeMsg.textContent = `🎉 Congratulations! ${treeCount} tree${treeCount>1?'s':''} planted for 10 launches! 🌳`;
-          treePopup.textContent = `🌳 ${treeCount} tree${treeCount>1?'s':''} planted! Thank you for supporting ISRO & Earth!`;
-          treePopup.style.display = 'block';
-          setTimeout(()=>{treePopup.style.display = 'none';}, 1800);
-        }else{
-          treeMsg.textContent = '';
+    const microtaskContainer = document.getElementById('microtask-container');
+    const taskImage = document.getElementById('task-image');
+    const taskQuestion = document.getElementById('task-question');
+    const taskOptions = document.getElementById('task-options');
+    const taskStatus = document.getElementById('task-status');
+    const earningsDisplay = document.getElementById('earnings-display');
+    const totalEarningsSpan = document.getElementById('total-earnings');
+
+    // Launch button click handler
+    if (launchBtn) {
+      launchBtn.addEventListener('click', async function() {
+        if (isTaskInProgress) return;
+        
+        isTaskInProgress = true;
+        launchBtn.disabled = true;
+        launchBtn.innerHTML = '<span class="loading-spinner"></span>Loading Mission...';
+        
+        try {
+          const task = await microtaskAPI.getNewTask();
+          microtaskAPI.setCurrentTask(task);
+          displayTask(task);
+          microtaskContainer.style.display = 'block';
+          launchBtn.innerHTML = '<i class="fa-solid fa-sync"></i> Get Next Mission';
+          launchBtn.disabled = false;
+          isTaskInProgress = false;
+        } catch (error) {
+          console.error('Failed to load task:', error);
+          taskStatus.textContent = 'Failed to load mission. Please try again.';
+          taskStatus.style.color = '#ff6b6b';
+          launchBtn.innerHTML = '<i class="fa-solid fa-rocket"></i> Start Mission Support';
+          launchBtn.disabled = false;
+          isTaskInProgress = false;
         }
-        setTimeout(()=>{launchMsg.textContent = ''},1200);
       });
     }
+
+    function displayTask(task) {
+      taskImage.style.backgroundImage = `url(${task.imageUrl})`;
+      taskQuestion.textContent = task.question;
+      taskStatus.textContent = 'Please select your answer:';
+      taskStatus.style.color = 'var(--muted)';
+      
+      // Clear previous options
+      taskOptions.innerHTML = '';
+      
+      // Create option buttons
+      task.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'task-btn';
+        btn.textContent = option;
+        btn.addEventListener('click', () => submitAnswer(index));
+        taskOptions.appendChild(btn);
+      });
+    }
+
+    async function submitAnswer(selectedIndex) {
+      if (isTaskInProgress) return;
+      
+      isTaskInProgress = true;
+      taskStatus.innerHTML = '<span class="loading-spinner"></span>Processing answer...';
+      
+      // Disable all option buttons
+      const optionBtns = taskOptions.querySelectorAll('.task-btn');
+      optionBtns.forEach(btn => btn.disabled = true);
+      
+      try {
+        const result = await microtaskAPI.submitTask(microtaskAPI.currentTask.id, selectedIndex);
+        
+        if (result.success) {
+          launchCount++;
+          microtaskAPI.completedTasks++;
+          microtaskAPI.totalEarnings += result.reward;
+          
+          launchCountSpan.textContent = launchCount;
+          totalEarningsSpan.textContent = microtaskAPI.totalEarnings.toFixed(2);
+          earningsDisplay.style.display = 'block';
+          
+          taskStatus.textContent = result.message;
+          taskStatus.style.color = '#2ecc40';
+          launchMsg.textContent = 'Mission completed successfully! 🚀';
+          
+          // Tree planting reward
+          if (launchCount % 5 === 0) {
+            treeCount++;
+            treeMsg.textContent = `🎉 Milestone reached! ${treeCount} tree${treeCount > 1 ? 's' : ''} planted for environmental support! 🌳`;
+            treePopup.textContent = `🌳 ${treeCount} tree${treeCount > 1 ? 's' : ''} planted! Supporting Earth & Space missions!`;
+            treePopup.style.display = 'block';
+            setTimeout(() => {
+              treePopup.style.display = 'none';
+            }, 2500);
+          } else {
+            treeMsg.textContent = `${5 - (launchCount % 5)} more missions until next tree planted! 🌱`;
+          }
+        } else {
+          taskStatus.textContent = result.message;
+          taskStatus.style.color = '#ff6b6b';
+          launchMsg.textContent = 'Try again on the next mission! 🛸';
+        }
+        
+        // Reset for next task
+        setTimeout(() => {
+          launchMsg.textContent = '';
+          if (launchCount % 5 !== 0) treeMsg.textContent = '';
+          isTaskInProgress = false;
+          optionBtns.forEach(btn => btn.disabled = false);
+        }, 2500);
+        
+      } catch (error) {
+        console.error('Failed to submit answer:', error);
+        taskStatus.textContent = 'Failed to submit answer. Please try again.';
+        taskStatus.style.color = '#ff6b6b';
+        isTaskInProgress = false;
+        optionBtns.forEach(btn => btn.disabled = false);
+      }
+    }
+
+    // Real API Integration Example (uncomment and modify for actual use)
+    /*
+    class RealMicrotaskAPI {
+      constructor(apiKey, endpoint) {
+        this.apiKey = apiKey;
+        this.endpoint = endpoint;
+      }
+
+      async getNewTask() {
+        const response = await fetch(`${this.endpoint}/tasks/new`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch task');
+        }
+        
+        return await response.json();
+      }
+
+      async submitTask(taskId, answer) {
+        const response = await fetch(`${this.endpoint}/tasks/${taskId}/submit`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ answer })
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to submit task');
+        }
+        
+        return await response.json();
+      }
+    }
+
+    // Usage for real APIs:
+    // const realAPI = new RealMicrotaskAPI('your-api-key', 'https://api.mturk.com');
+    */
   </script>
 </body>
 </html>
