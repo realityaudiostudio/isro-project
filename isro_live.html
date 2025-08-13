@@ -68,10 +68,11 @@
       font-weight: 800;
       padding: 32px 38px;
       border-radius: 18px;
-      box-shadow: 0 8px 40px rgba(11,95,255,0.18);
+      box-shadow: 0 8px 40px rgba(46,204,64,0.3);
       z-index: 9999;
       display: none;
       animation: popTree .7s cubic-bezier(.5,1.7,.5,1) forwards;
+      text-align: center;
     }
     @keyframes popTree {
       0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
@@ -123,6 +124,16 @@
       font-weight: 700;
       text-align: center;
       margin-top: 10px;
+    }
+    .tree-counter {
+      background: linear-gradient(135deg, #2ecc40, #27ae60);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 8px;
+      display: none;
     }
     .loading-spinner {
       display: inline-block;
@@ -182,7 +193,7 @@
               <i class="fa-solid fa-rocket"></i> Mission Support Hub
             </div>
             <div style="margin:12px 0 8px 0;color:var(--muted);font-size:14px">
-              Support ISRO missions by completing space-related microtasks. Earn rewards while contributing to space research!
+              Support ISRO missions by completing space-related microtasks. Earn rewards while contributing to space research and environmental conservation!
             </div>
             
             <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
@@ -214,7 +225,12 @@
                 <i class="fa-solid fa-coins"></i> Earned: $<span id="total-earnings">0.00</span>
               </div>
               
-              <div id="tree-message" style="color:#2ecc40;font-size:15px;font-weight:600;margin-top:4px"></div>
+              <!-- Tree Counter Display -->
+              <div id="tree-counter" class="tree-counter">
+                <i class="fa-solid fa-tree"></i> Trees Planted: <span id="tree-count">0</span>
+              </div>
+              
+              <div id="tree-message" style="color:#2ecc40;font-size:15px;font-weight:600;margin-top:4px;text-align:center"></div>
             </div>
           </div>
           
@@ -366,6 +382,8 @@
     const taskStatus = document.getElementById('task-status');
     const earningsDisplay = document.getElementById('earnings-display');
     const totalEarningsSpan = document.getElementById('total-earnings');
+    const treeCounter = document.getElementById('tree-counter');
+    const treeCountSpan = document.getElementById('tree-count');
 
     // Launch button click handler
     if (launchBtn) {
@@ -440,31 +458,43 @@
           taskStatus.style.color = '#2ecc40';
           launchMsg.textContent = 'Mission completed successfully! 🚀';
           
-          // Tree planting reward
-          if (launchCount % 5 === 0) {
-            treeCount++;
-            treeMsg.textContent = `🎉 Milestone reached! ${treeCount} tree${treeCount > 1 ? 's' : ''} planted for environmental support! 🌳`;
-            treePopup.textContent = `🌳 ${treeCount} tree${treeCount > 1 ? 's' : ''} planted! Supporting Earth & Space missions!`;
-            treePopup.style.display = 'block';
-            setTimeout(() => {
-              treePopup.style.display = 'none';
-            }, 2500);
-          } else {
-            treeMsg.textContent = `${5 - (launchCount % 5)} more missions until next tree planted! 🌱`;
-          }
+          // Tree planting reward - NOW FOR EVERY SUCCESSFUL MISSION!
+          treeCount++;
+          treeCountSpan.textContent = treeCount;
+          treeCounter.style.display = 'block';
+          
+          // Show tree popup with variety of messages
+          const treeMessages = [
+            `🌳 Tree ${treeCount} planted! Supporting Earth & Space missions!`,
+            `🌱 Another tree for our planet! Total: ${treeCount} trees!`,
+            `🌿 Environmental impact grows! ${treeCount} trees planted!`,
+            `🌳 Space & Earth harmony! Tree #${treeCount} planted!`,
+            `🌲 Growing green while reaching stars! ${treeCount} trees!`
+          ];
+          
+          const randomMessage = treeMessages[Math.floor(Math.random() * treeMessages.length)];
+          treePopup.textContent = randomMessage;
+          treePopup.style.display = 'block';
+          
+          treeMsg.textContent = `🎉 Tree planted! Contributing to environmental conservation while supporting space missions! 🌳`;
+          
+          setTimeout(() => {
+            treePopup.style.display = 'none';
+          }, 3000);
         } else {
           taskStatus.textContent = result.message;
           taskStatus.style.color = '#ff6b6b';
           launchMsg.textContent = 'Try again on the next mission! 🛸';
+          treeMsg.textContent = 'Complete missions successfully to plant trees! 🌱';
         }
         
         // Reset for next task
         setTimeout(() => {
           launchMsg.textContent = '';
-          if (launchCount % 5 !== 0) treeMsg.textContent = '';
+          if (!result.success) treeMsg.textContent = '';
           isTaskInProgress = false;
           optionBtns.forEach(btn => btn.disabled = false);
-        }, 2500);
+        }, 3500);
         
       } catch (error) {
         console.error('Failed to submit answer:', error);
